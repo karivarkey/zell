@@ -34,7 +34,34 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_300Light.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_700Bold.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_900Black.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_100Thin.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_300Light.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_400Regular.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_500Medium.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_700Bold.ttf",
+            "node_modules/@expo-google-fonts/sora/Sora_800ExtraBold.ttf"
+          ]
+        }
       ]
+      
+      
+      
     ],
     "experiments": {
       "typedRoutes": true

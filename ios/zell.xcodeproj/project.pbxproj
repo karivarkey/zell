@@ -14,7 +14,24 @@
 		96905EF65AED1B983A6B3ABC /* libPods-zell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-zell.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		01651F44A8D84E5D94A17213 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812DFA566EEA4ED0A6754919 /* noop-file.swift */; };
+		1ED91DD8124948EBBD579B5C /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873CA83BFAC464F87B4F613 /* noop-file.swift */; };
+		C3800CA0E1BF4430AACFF284 /* Inter_100Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D23295EFC894610962BF939 /* Inter_100Thin.ttf */; };
+		3E2A496A43EA4C79B89FD220 /* Inter_200ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77213D04F27C4F92AFA91924 /* Inter_200ExtraLight.ttf */; };
+		347186FA022B4707984F048F /* Inter_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CEDBFC8D10D47B8B1F942F0 /* Inter_300Light.ttf */; };
+		94C165E9371C40EFB5B73C4C /* Inter_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7517D0B629EC459198356183 /* Inter_400Regular.ttf */; };
+		8FF74887AD3246DF8487FC14 /* Inter_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C37D046DEDB14573A844E093 /* Inter_500Medium.ttf */; };
+		68834BC159D74F888F0A2233 /* Inter_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 530E23FBBEA14500B400E5DC /* Inter_600SemiBold.ttf */; };
+		FDA8EAAD0B1B48668D744AFC /* Inter_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D47A8BC0E124C329588A303 /* Inter_700Bold.ttf */; };
+		F45A6F1CA57543E083084B54 /* Inter_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A392345FF3B040188A834B98 /* Inter_800ExtraBold.ttf */; };
+		64ED39EAFC9D4807960A6DF4 /* Inter_900Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0491DA2082904C83A3B7E00F /* Inter_900Black.ttf */; };
+		14436EFE8C864A4CBEC35F7D /* Sora_100Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6AAC79EF00C4C25AAFCA52F /* Sora_100Thin.ttf */; };
+		48B332BD69EB4E22AAF3487C /* Sora_200ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C349AF3FC514DEDB80DABE6 /* Sora_200ExtraLight.ttf */; };
+		BBA5E1FD127B4524A6929538 /* Sora_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E4976B4BCAF4E85A0893DAB /* Sora_300Light.ttf */; };
+		0F2787D4F848425CAFCAD7DE /* Sora_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F75C9948A4113B37C79EC /* Sora_400Regular.ttf */; };
+		17D692AB2AFD4C8DAE2B49BF /* Sora_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B75C0B7119924A9F8CFA2EDE /* Sora_500Medium.ttf */; };
+		9FE048B479714A5C9943BFC1 /* Sora_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2036DBA7D3DD47F2B1934B19 /* Sora_600SemiBold.ttf */; };
+		6516EE3E9F6D468F81BA913A /* Sora_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 197EA574ADBC47CC90C9E440 /* Sora_700Bold.ttf */; };
+		58BEC8336EE247FB9D62A23E /* Sora_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22CDB04C2FDB441A8A253786 /* Sora_800ExtraBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +48,25 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-zell/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		812DFA566EEA4ED0A6754919 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "zell/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
-		8DD6A3A3972F4F5AB45CF713 /* zell-Bridging-Header.h */ = {isa = PBXFileReference; name = "zell-Bridging-Header.h"; path = "zell/zell-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		9873CA83BFAC464F87B4F613 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "zell/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		AB50A982B55C45CE922986BC /* zell-Bridging-Header.h */ = {isa = PBXFileReference; name = "zell-Bridging-Header.h"; path = "zell/zell-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		4D23295EFC894610962BF939 /* Inter_100Thin.ttf */ = {isa = PBXFileReference; name = "Inter_100Thin.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		77213D04F27C4F92AFA91924 /* Inter_200ExtraLight.ttf */ = {isa = PBXFileReference; name = "Inter_200ExtraLight.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_200ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0CEDBFC8D10D47B8B1F942F0 /* Inter_300Light.ttf */ = {isa = PBXFileReference; name = "Inter_300Light.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_300Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7517D0B629EC459198356183 /* Inter_400Regular.ttf */ = {isa = PBXFileReference; name = "Inter_400Regular.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_400Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C37D046DEDB14573A844E093 /* Inter_500Medium.ttf */ = {isa = PBXFileReference; name = "Inter_500Medium.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_500Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		530E23FBBEA14500B400E5DC /* Inter_600SemiBold.ttf */ = {isa = PBXFileReference; name = "Inter_600SemiBold.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_600SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8D47A8BC0E124C329588A303 /* Inter_700Bold.ttf */ = {isa = PBXFileReference; name = "Inter_700Bold.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_700Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A392345FF3B040188A834B98 /* Inter_800ExtraBold.ttf */ = {isa = PBXFileReference; name = "Inter_800ExtraBold.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_800ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0491DA2082904C83A3B7E00F /* Inter_900Black.ttf */ = {isa = PBXFileReference; name = "Inter_900Black.ttf"; path = "../node_modules/@expo-google-fonts/inter/Inter_900Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F6AAC79EF00C4C25AAFCA52F /* Sora_100Thin.ttf */ = {isa = PBXFileReference; name = "Sora_100Thin.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_100Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7C349AF3FC514DEDB80DABE6 /* Sora_200ExtraLight.ttf */ = {isa = PBXFileReference; name = "Sora_200ExtraLight.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_200ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2E4976B4BCAF4E85A0893DAB /* Sora_300Light.ttf */ = {isa = PBXFileReference; name = "Sora_300Light.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_300Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EB5F75C9948A4113B37C79EC /* Sora_400Regular.ttf */ = {isa = PBXFileReference; name = "Sora_400Regular.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_400Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B75C0B7119924A9F8CFA2EDE /* Sora_500Medium.ttf */ = {isa = PBXFileReference; name = "Sora_500Medium.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_500Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2036DBA7D3DD47F2B1934B19 /* Sora_600SemiBold.ttf */ = {isa = PBXFileReference; name = "Sora_600SemiBold.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_600SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		197EA574ADBC47CC90C9E440 /* Sora_700Bold.ttf */ = {isa = PBXFileReference; name = "Sora_700Bold.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_700Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		22CDB04C2FDB441A8A253786 /* Sora_800ExtraBold.ttf */ = {isa = PBXFileReference; name = "Sora_800ExtraBold.ttf"; path = "../node_modules/@expo-google-fonts/sora/Sora_800ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +91,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				812DFA566EEA4ED0A6754919 /* noop-file.swift */,
-				8DD6A3A3972F4F5AB45CF713 /* zell-Bridging-Header.h */,
+				9873CA83BFAC464F87B4F613 /* noop-file.swift */,
+				AB50A982B55C45CE922986BC /* zell-Bridging-Header.h */,
 			);
 			name = zell;
 			sourceTree = "<group>";
@@ -88,6 +122,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				D8439500322841E08B563C15 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -135,6 +170,31 @@
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
+		};
+		D8439500322841E08B563C15 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				4D23295EFC894610962BF939 /* Inter_100Thin.ttf */,
+				77213D04F27C4F92AFA91924 /* Inter_200ExtraLight.ttf */,
+				0CEDBFC8D10D47B8B1F942F0 /* Inter_300Light.ttf */,
+				7517D0B629EC459198356183 /* Inter_400Regular.ttf */,
+				C37D046DEDB14573A844E093 /* Inter_500Medium.ttf */,
+				530E23FBBEA14500B400E5DC /* Inter_600SemiBold.ttf */,
+				8D47A8BC0E124C329588A303 /* Inter_700Bold.ttf */,
+				A392345FF3B040188A834B98 /* Inter_800ExtraBold.ttf */,
+				0491DA2082904C83A3B7E00F /* Inter_900Black.ttf */,
+				F6AAC79EF00C4C25AAFCA52F /* Sora_100Thin.ttf */,
+				7C349AF3FC514DEDB80DABE6 /* Sora_200ExtraLight.ttf */,
+				2E4976B4BCAF4E85A0893DAB /* Sora_300Light.ttf */,
+				EB5F75C9948A4113B37C79EC /* Sora_400Regular.ttf */,
+				B75C0B7119924A9F8CFA2EDE /* Sora_500Medium.ttf */,
+				2036DBA7D3DD47F2B1934B19 /* Sora_600SemiBold.ttf */,
+				197EA574ADBC47CC90C9E440 /* Sora_700Bold.ttf */,
+				22CDB04C2FDB441A8A253786 /* Sora_800ExtraBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -198,7 +258,24 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				572E05EE542A4D5ABB99D3C6 /* zell-Bridging-Header.h in Resources */,
+				90811E5A7E4140DFAFFE1428 /* zell-Bridging-Header.h in Resources */,
+				C3800CA0E1BF4430AACFF284 /* Inter_100Thin.ttf in Resources */,
+				3E2A496A43EA4C79B89FD220 /* Inter_200ExtraLight.ttf in Resources */,
+				347186FA022B4707984F048F /* Inter_300Light.ttf in Resources */,
+				94C165E9371C40EFB5B73C4C /* Inter_400Regular.ttf in Resources */,
+				8FF74887AD3246DF8487FC14 /* Inter_500Medium.ttf in Resources */,
+				68834BC159D74F888F0A2233 /* Inter_600SemiBold.ttf in Resources */,
+				FDA8EAAD0B1B48668D744AFC /* Inter_700Bold.ttf in Resources */,
+				F45A6F1CA57543E083084B54 /* Inter_800ExtraBold.ttf in Resources */,
+				64ED39EAFC9D4807960A6DF4 /* Inter_900Black.ttf in Resources */,
+				14436EFE8C864A4CBEC35F7D /* Sora_100Thin.ttf in Resources */,
+				48B332BD69EB4E22AAF3487C /* Sora_200ExtraLight.ttf in Resources */,
+				BBA5E1FD127B4524A6929538 /* Sora_300Light.ttf in Resources */,
+				0F2787D4F848425CAFCAD7DE /* Sora_400Regular.ttf in Resources */,
+				17D692AB2AFD4C8DAE2B49BF /* Sora_500Medium.ttf in Resources */,
+				9FE048B479714A5C9943BFC1 /* Sora_600SemiBold.ttf in Resources */,
+				6516EE3E9F6D468F81BA913A /* Sora_700Bold.ttf in Resources */,
+				58BEC8336EE247FB9D62A23E /* Sora_800ExtraBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +351,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				01651F44A8D84E5D94A17213 /* noop-file.swift in Sources */,
+				1ED91DD8124948EBBD579B5C /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

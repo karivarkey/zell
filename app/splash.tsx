@@ -3,6 +3,9 @@ import React, { useRef, useState } from "react";
 import { Image } from "expo-image";
 import Swiper from "react-native-swiper";
 import { useRouter } from "expo-router";
+import { Link } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
+
 
 const Login = () => {
   const router = useRouter();
@@ -45,15 +48,16 @@ const Login = () => {
   };
 
   return (
-    <View className="flex-1 justify-center bg-[#111111]">
+    <View className="flex-1 flex-col justify-center bg-[#111111]">
       {/* Swiper for Images */}
-      <View className="w-full flex-1">
+      <StatusBar style="light" />
+      <View className="w-full h-2/3">
         <Swiper
           ref={swiperRef}
           loop={false}
           onIndexChanged={setCurrentIndex} // Update state
           showsPagination
-          scrollEnabled={false}
+          scrollEnabled={true}
           paginationStyle={{ bottom: 40 }}
           activeDotStyle={{
             backgroundColor: "#D7FC70",
@@ -78,26 +82,45 @@ const Login = () => {
           ))}
         </Swiper>
       </View>
-      <View className="bg-black h-1/3 rounded-t-[50px]">
+      <View className="bg-black h-1/3 rounded-t-[50px] pt-14 flex flex-col justify-between">
         {/* Text Below Swiper */}
-        <View className="px-6 pb-10">
-          <Text className="text-2xl font-bold text-center text-white">
-            {data[currentIndex].heading}
-          </Text>
-          <Text className="text-base text-gray-400 text-center mt-2">
-            {data[currentIndex].subHeading}
-          </Text>
-        </View>
+        <View>
+          <View className="px-6 pb-10">
+            <Text
+              className="text-4xl  text-center text-white"
+              style={{ fontFamily: "Sora_700Bold" }}
+            >
+              {data[currentIndex].heading}
+            </Text>
+            <Text
+              className="text-xl text-[#808080] text-center mt-2 px-10"
+              style={{ fontFamily: "Inter_400Regular" }}
+            >
+              {data[currentIndex].subHeading}
+            </Text>
+          </View>
 
-        {/* Button */}
-        <TouchableOpacity
-          className="absolute bottom-14 left-1/2 -translate-x-1/2 bg-blue-500 px-6 py-3 rounded-lg"
-          onPress={handleNext}
-        >
-          <Text className="text-white text-lg font-semibold">
-            {currentIndex === data.length - 1 ? "Get Started" : "Next"}
-          </Text>
-        </TouchableOpacity>
+          {/* Button */}
+          <View className="px-10 ">
+            <TouchableOpacity
+              className=" bg-[#D7FC70] py-5 rounded-2xl px-10"
+              onPress={handleNext}
+            >
+              <Text
+                className="text-black text-2xl text-center"
+                style={{ fontFamily: "Inter_600SemiBold" }}
+              >
+                {currentIndex === data.length - 1 ? "Get Started" : "Next"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View className="flex flex-row justify-center  pb-4 gap-1">
+          <Text className="text-[#808080]" style={{fontFamily:"Inter_400Regular"}}>Vendor?</Text>
+          <Link href={"/login"}>
+            <Text className="text-[#FBFBFB]" style={{fontFamily:"Inter_400Regular"}}>Login here</Text>
+          </Link>
+        </View>
       </View>
     </View>
   );

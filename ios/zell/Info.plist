@@ -49,6 +49,26 @@
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
     </array>
+    <key>UIAppFonts</key>
+    <array>
+      <string>Inter_100Thin.ttf</string>
+      <string>Inter_200ExtraLight.ttf</string>
+      <string>Inter_300Light.ttf</string>
+      <string>Inter_400Regular.ttf</string>
+      <string>Inter_500Medium.ttf</string>
+      <string>Inter_600SemiBold.ttf</string>
+      <string>Inter_700Bold.ttf</string>
+      <string>Inter_800ExtraBold.ttf</string>
+      <string>Inter_900Black.ttf</string>
+      <string>Sora_100Thin.ttf</string>
+      <string>Sora_200ExtraLight.ttf</string>
+      <string>Sora_300Light.ttf</string>
+      <string>Sora_400Regular.ttf</string>
+      <string>Sora_500Medium.ttf</string>
+      <string>Sora_600SemiBold.ttf</string>
+      <string>Sora_700Bold.ttf</string>
+      <string>Sora_800ExtraBold.ttf</string>
+    </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
