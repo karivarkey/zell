@@ -58,13 +58,13 @@ const Login = () => {
           activeDotStyle={{
             backgroundColor: "#D7FC70",
             width: 20,
-            height: 10,
+            height: 8,
             borderRadius: 5,
           }}
           dotStyle={{
             backgroundColor: "#ddd",
-            width: 8,
-            height: 8,
+            width: 5,
+            height: 5,
             borderRadius: 4,
           }}
         >
