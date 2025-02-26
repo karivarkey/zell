@@ -110,7 +110,10 @@ const Login = (props: Props) => {
         {/* Sign Up Link */}
         <Text className="text-white text-center">
           Don't have an account?{" "}
-          <Text className="text-[#D7FC70]" onPress={() => router.push("/")}>
+          <Text
+            className="text-[#D7FC70]"
+            onPress={() => router.push("/signup")}
+          >
             Sign Up
           </Text>
         </Text>
