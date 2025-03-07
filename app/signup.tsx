@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -11,8 +11,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-//import * as Google from "expo-auth-session/providers/google";
-//import * as AppleAuthentication from "expo-apple-authentication";
+import { Toast } from "toastify-react-native"; // Import Toast
 
 const Login = () => {
   const router = useRouter();
@@ -20,38 +19,26 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert("Success", "Logged in successfully!");
-      router.push("/home"); // Redirect to home screen
-    } catch (error: any) {
-      Alert.alert("Login Failed", error.message);
-    }
-  };
-
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match!");
+      Toast.error("Passwords do not match!");
       return;
     }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      Alert.alert("Success", "Account created successfully!");
+      Toast.success("Account created successfully!");
       router.push("/home"); // Redirect to home screen
     } catch (error: any) {
-      Alert.alert("Sign Up Failed", error.message);
+      Toast.error(error.message);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    // Implement Google Sign-In (Assuming Firebase is configured for Google Auth)
-    Alert.alert("Google Sign-In", "Google Sign-In clicked!");
+    Toast.info("Google Sign-In clicked!"); // Show Toast info message
   };
 
   const handleAppleSignIn = async () => {
-    // Implement Apple Sign-In (iOS only)
-    Alert.alert("Apple Sign-In", "Apple Sign-In clicked!");
+    Toast.info("Apple Sign-In clicked!"); // Show Toast info message
   };
 
   return (
@@ -128,11 +115,12 @@ const Login = () => {
 
         {/* Login Button */}
         <TouchableOpacity
-          onPress={handleLogin}
+          onPress={handleSignUp}
           className="bg-[#D7FC70] rounded-xl py-6 flex items-center"
         >
           <Text className="text-black text-2xl font-semibold">Sign Up</Text>
         </TouchableOpacity>
+
         <View className="flex flex-row w-full justify-evenly">
           {/* Sign Up with Google */}
           <TouchableOpacity
@@ -150,6 +138,7 @@ const Login = () => {
             <Ionicons name="logo-apple" size={24} color="white" />
           </TouchableOpacity>
         </View>
+
         {/* Sign Up Link */}
         <Text className="text-white text-center">
           Don't have an account?{" "}
