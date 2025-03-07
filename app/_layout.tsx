@@ -2,7 +2,8 @@ import { useFonts } from "expo-font";
 import { Slot } from "expo-router";
 import { AuthProvider } from "@/hooks/AuthProvider";
 import { Text } from "react-native";
-
+import ToastManager from "toastify-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     InterThin: require("../node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"),
@@ -30,7 +31,14 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <Slot />
+      <SafeAreaView className="w-full h-full">
+        <ToastManager
+          style={{ backgroundColor: "#111111" }}
+          textStyle={{ color: "#D7FC70" }}
+        />
+
+        <Slot />
+      </SafeAreaView>
     </AuthProvider>
   );
 }

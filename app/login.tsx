@@ -10,6 +10,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 import { Alert } from "react-native";
+import { Toast } from "toastify-react-native";
 type Props = {};
 
 const Login = (props: Props) => {
@@ -17,10 +18,13 @@ const Login = (props: Props) => {
     try {
       console.log(email, password);
       await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert("Success", "Logged in successfully!");
+      //Alert.alert("Success", "Logged in successfully!");
+      Toast.success("Logged in successfully!", "bottom");
       router.push("/home"); // Redirect to home screen
     } catch (error: any) {
-      Alert.alert("Login Failed", error.message);
+      //Alert.alert("Login Failed", error.message);
+      console.log("Err");
+      Toast.error(`Error: ${error}`, "bottom");
     }
   };
 
@@ -123,5 +127,3 @@ const Login = (props: Props) => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({});
