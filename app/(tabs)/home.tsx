@@ -52,7 +52,7 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#111] px-5">
+    <SafeAreaView className="flex-1 bg-[#111] px-5 pb-32">
       <Header location={location || "Fetching Location..."} />
 
       <View className="py-3">
