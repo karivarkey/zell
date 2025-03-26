@@ -8,17 +8,28 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Toast } from "toastify-react-native";
 import Header from "@/components/home/Header";
 import ProductCard from "@/components/home/ProductCard";
-import { demoData } from "@/types/types";
 import SearchBar from "@/components/home/SearchBar";
+import axios from "axios";
+import { Product } from "@/types/types";
 
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState(Array(29).fill(demoData));
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     (async () => {
+      try {
+        const res = await axios.get<Product[]>(
+          "http://192.168.1.4:3000/user/home"
+        );
+        setProducts(res.data);
+        setFilteredProducts(res.data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setLocation("Permission Denied");
@@ -74,7 +85,7 @@ const Home = () => {
       <FlatList
         data={filteredProducts}
         numColumns={2}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{
           justifyContent: "space-around",

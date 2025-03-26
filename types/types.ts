@@ -1,21 +1,68 @@
 export interface Product {
-    uri: string;
-    name: string;
-    price: number;
-    location: string;
-    liked?: boolean;
-    vendorId: string;
-    productId: string;
+  name: string;
+  quantity: number;
+  price: number;
+  brandName: string;
+  id: string;
+  rating: number;
+  reviews: Review[];
+  vendorId: string;
+  features:{
+    category:string;
+    features:string[];
+  }
+}
+
+export interface Vendor {
+  vendorId: string;
+  vendorName: string;
+  rating: number;
+  reviews: Review[];
+  orders: Order[];
+  location: {
+    address: string;
+    lat: number;
+    long: number;
+  };
+}
+
+export interface Order {
+  id?: string;
+  shippingAddress: string;
+  status: "delivered" | "shipped" | "cancelled";
+  price: number;
+  products: Product[];
+}
+
+export interface Review {
+  userId: string;
+  title: string;
+  review: string;
+  rating: number;
+}
+
+export interface LandLord {
+  Id: string;
+  properties: Property[];
+  rating: number;
+}
+
+export interface Property {
+  name: string;
+  location: {
+    address: string;
+    lat: number;
+    long: number;
+  };
+  reviews: Review[];
+  rating: number;
+}
+export interface Rating {
+  uid: string;
+  rating: number;
+  reviews: Review[];
+  productId: string;
 }
 
 
 
-export const demoData: Product = {
-  uri: "https://res.cloudinary.com/dgeduh0en/image/upload/v1741405846/qg1rhbovlxhtuhb7697g.png",
-  name: "iPhone 16 Pro Max",
-  price: 99999, // Assuming price in INR
-  location: "Apple Store, Edapally",
-  liked: false, // Defaulting to not liked
-  vendorId: "vendor_12345",
-  productId: "product_67890",
-};

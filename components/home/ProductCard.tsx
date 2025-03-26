@@ -9,14 +9,19 @@ type Props = {
 };
 
 const ProductCard = ({ product }: Props) => {
+  console.log(
+    `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/${product.id}.png`
+  );
   return (
     <View className="bg-black  p-4 rounded-2xl shadow-lg">
       {/* Product Image */}
       <View className="relative">
         <Image
-          source={{ uri: product.uri }}
+          source={{
+            uri: `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${product.id}.png`,
+          }}
           className="w-full h-48 rounded-xl"
-          contentFit="cover"
+          contentFit="contain"
           style={{ height: 100, width: 150 }}
         />
         {/* Heart Icon for Wishlist */}
@@ -36,7 +41,7 @@ const ProductCard = ({ product }: Props) => {
       </Text>
 
       {/* Location Info */}
-      <Text className="text-gray-400 text-sm mt-1">{product.location}</Text>
+      <Text className="text-gray-400 text-sm mt-1">{product.vendorId}</Text>
     </View>
   );
 };
