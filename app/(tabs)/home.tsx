@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
@@ -15,11 +9,13 @@ import { Toast } from "toastify-react-native";
 import Header from "@/components/home/Header";
 import ProductCard from "@/components/home/ProductCard";
 import { demoData } from "@/types/types";
+import SearchBar from "@/components/home/SearchBar";
 
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const products = Array(29).fill(demoData); // Generating 6 items for testing
+  const [products, setProducts] = useState(Array(29).fill(demoData));
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
     (async () => {
@@ -42,6 +38,17 @@ const Home = () => {
     })();
   }, []);
 
+  const handleSearch = (query: string) => {
+    if (!query) {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  };
+
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -54,16 +61,18 @@ const Home = () => {
   return (
     <SafeAreaView className="flex-1 bg-[#111] px-5 pb-32">
       <Header location={location || "Fetching Location..."} />
-
       <View className="py-3">
         <Text className="text-white" style={{ fontFamily: "SoraBold" }}>
           Looking for apartments? Check it{" "}
           <Text className="text-[#D7FC70]">out here</Text>
         </Text>
       </View>
+      <View className="py-4">
+        <SearchBar onSearch={handleSearch} />
+      </View>
       {/* Product Grid */}
       <FlatList
-        data={products}
+        data={filteredProducts}
         numColumns={2}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
@@ -73,7 +82,6 @@ const Home = () => {
         }}
         renderItem={({ item }) => <ProductCard product={item} />}
       />
-
       {/* Sign Out Button */}
       <TouchableOpacity
         onPress={handleSignOut}
