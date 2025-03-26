@@ -1,6 +1,12 @@
-import { Text, View, TouchableOpacity, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 import * as Location from "expo-location";
@@ -15,20 +21,25 @@ import { Product } from "@/types/types";
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get<Product[]>(
+        "http://192.168.1.4:3000/user/home"
+      );
+      setProducts(res.data);
+      setFilteredProducts(res.data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      try {
-        const res = await axios.get<Product[]>(
-          "http://192.168.1.4:3000/user/home"
-        );
-        setProducts(res.data);
-        setFilteredProducts(res.data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      }
+      await fetchProducts();
 
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -60,6 +71,12 @@ const Home = () => {
     }
   };
 
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchProducts();
+    setRefreshing(false);
+  }, []);
+
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -81,7 +98,7 @@ const Home = () => {
       <View className="py-4">
         <SearchBar onSearch={handleSearch} />
       </View>
-      {/* Product Grid */}
+      {/* Product Grid with Pull to Refresh */}
       <FlatList
         data={filteredProducts}
         numColumns={2}
@@ -92,6 +109,13 @@ const Home = () => {
           marginBottom: 10,
         }}
         renderItem={({ item }) => <ProductCard product={item} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor="#D7FC70"
+          />
+        }
       />
       {/* Sign Out Button */}
       <TouchableOpacity
