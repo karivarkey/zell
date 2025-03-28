@@ -1,6 +1,8 @@
 import { View, TextInput } from "react-native";
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { Link } from "expo-router";
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
@@ -24,6 +26,9 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
         value={query}
         onChangeText={handleChange}
       />
+      <Link href="/search">
+        <AntDesign name="camera" size={24} color="gray" />
+      </Link>
     </View>
   );
 };

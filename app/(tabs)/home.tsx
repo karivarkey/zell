@@ -17,6 +17,7 @@ import ProductCard from "@/components/home/ProductCard";
 import SearchBar from "@/components/home/SearchBar";
 import axios from "axios";
 import { Product } from "@/types/types";
+import { API } from "@/constants/constants";
 
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
@@ -27,9 +28,7 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get<Product[]>(
-        "http://192.168.1.4:3000/user/home"
-      );
+      const res = await axios.get<Product[]>(`${API}/user/home`);
       setProducts(res.data);
       setFilteredProducts(res.data);
     } catch (err) {
