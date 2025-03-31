@@ -59,6 +59,7 @@ export interface Property {
   reviews: Review[];
   rating: number;
   price: number;
+  contact: number;
 }
 export interface Rating {
   uid: string;

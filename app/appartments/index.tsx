@@ -1,20 +1,31 @@
-import React, { useEffect } from "react";
-import { FlatList, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+  RefreshControl,
+  ActivityIndicator,
+} from "react-native";
 import { useApartmentStore } from "@/store/useAppartmentStore";
-import { ActivityIndicator } from "react-native";
+import { Linking } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
 
-type Props = {};
-
-const Appartments = (props: Props) => {
-  // Fetch apartments from store
+const Appartments = () => {
   const { apartments, fetchApartments } = useApartmentStore();
+  const [refreshing, setRefreshing] = useState(false);
 
-  // Use useEffect to fetch apartments when the component mounts
   useEffect(() => {
     fetchApartments();
   }, [fetchApartments]);
 
-  // Render loading state if apartments are being fetched
+  // Function to handle refresh
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchApartments(); // Fetch fresh data
+    setRefreshing(false);
+  };
+
   if (apartments.length === 0) {
     return (
       <View className="flex-1 items-center justify-center bg-black p-4">
@@ -24,7 +35,6 @@ const Appartments = (props: Props) => {
     );
   }
 
-  // Render list of apartments
   return (
     <View className="flex-1 bg-black p-4">
       <Text className="text-[#D7FC70] text-2xl font-bold text-center mb-6">
@@ -44,8 +54,24 @@ const Appartments = (props: Props) => {
             <Text className="text-[#D7FC70] text-lg mt-2">
               Price: ₹{item.price}
             </Text>
+
+            {/* Phone Call Button */}
+            <TouchableOpacity
+              className="mt-3 flex-row items-center"
+              onPress={() => Linking.openURL(`tel:${item.contact}`)}
+            >
+              <Feather name="phone-call" size={24} color="#D7FC70" />
+              <Text className="text-[#D7FC70] ml-2">Call Now</Text>
+            </TouchableOpacity>
           </View>
         )}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#D7FC70"]}
+          />
+        }
       />
     </View>
   );
