@@ -7,10 +7,10 @@ export interface Product {
   rating: number;
   reviews: Review[];
   vendorId: string;
-  features:{
-    category:string;
-    features:string[];
-  }
+  features: {
+    category: string;
+    features: string[];
+  };
 }
 
 export interface Vendor {
@@ -27,6 +27,7 @@ export interface Vendor {
 }
 
 export interface Order {
+  userId: string;
   id?: string;
   shippingAddress: string;
   status: "delivered" | "shipped" | "cancelled";
@@ -63,6 +64,3 @@ export interface Rating {
   reviews: Review[];
   productId: string;
 }
-
-
-

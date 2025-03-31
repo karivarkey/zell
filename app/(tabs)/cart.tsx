@@ -1,11 +1,69 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from "react-native";
+import React, { useState } from "react";
 import { useCartStore } from "@/store/useCartStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { SafeAreaView } from "react-native-safe-area-context";
+import axios from "axios";
+import { API } from "@/constants/constants";
+import { auth } from "@/firebase/firebase";
+import { Order, Product } from "@/types/types"; // Import Order and Product types
+
 const Cart = () => {
   const { cartItems, removeFromCart } = useCartStore();
+
+  // Local state to store the delivery address and status
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [isAddressPrompt, setIsAddressPrompt] = useState(false);
+
+  const placeOrder = () => {
+    if (deliveryAddress.trim() === "") {
+      Alert.alert("Error", "Please provide a delivery address.");
+      return;
+    }
+
+    // Get userID from Firebase Auth
+    const userID = auth.currentUser?.uid; // Use the user ID from the current Firebase user
+
+    if (!userID) {
+      Alert.alert("Error", "User not authenticated.");
+      return;
+    }
+
+    // Prepare the order object with the correct structure
+    const order: Order = {
+      userId: userID, // Set the userID
+      shippingAddress: deliveryAddress,
+      price: total,
+      status: "shipped", // Set status to "shipped" (or change as needed)
+      products: cartItems, // Directly use the items from the cart
+    };
+
+    console.log(order); // Check the order format in console
+    console.log(`${API}/order/orders`);
+    // Send the order to the server
+    axios
+      .post(`${API}/order/orders`, order)
+      .then((response) => {
+        console.log("Order placed successfully:", response.data);
+        Alert.alert("Success", "Your order has been placed.");
+        // Optionally, clear the cart or redirect to another screen
+      })
+      .catch((error) => {
+        console.error("Error placing order:", error);
+        Alert.alert(
+          "Error",
+          "There was an issue placing your order. Please try again."
+        );
+      });
+  };
 
   // Calculate total price
   const total = cartItems.reduce(
@@ -71,11 +129,45 @@ const Cart = () => {
           </View>
 
           {/* Checkout Button */}
-          <TouchableOpacity className="bg-[#D7FC70] py-3 rounded-xl mt-5">
+          <TouchableOpacity
+            className="bg-[#D7FC70] py-3 rounded-xl mt-5"
+            onPress={() => setIsAddressPrompt(true)}
+          >
             <Text className="text-black text-center font-semibold text-lg">
-              Proceed to Checkout
+              Proceed to Confirming
             </Text>
           </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Address Prompt */}
+      {isAddressPrompt && (
+        <View className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 justify-center items-center p-4">
+          <View className="bg-white p-6 rounded-lg w-80">
+            <Text className="text-lg font-semibold mb-4">
+              Enter Delivery Address
+            </Text>
+            <TextInput
+              value={deliveryAddress}
+              onChangeText={setDeliveryAddress}
+              placeholder="Enter your delivery address"
+              className="border p-2 rounded-md mb-4"
+            />
+            <TouchableOpacity
+              className="bg-[#D7FC70] py-2 rounded-md"
+              onPress={placeOrder}
+            >
+              <Text className="text-black text-center font-semibold text-lg">
+                Confirm Order
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="mt-2"
+              onPress={() => setIsAddressPrompt(false)}
+            >
+              <Text className="text-gray-500 text-center">Cancel</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </SafeAreaView>
