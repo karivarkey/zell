@@ -3,17 +3,30 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Product } from "@/types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useRouter } from "expo-router";
+import { useCartStore } from "@/store/useCartStore"; // Import Zustand store
 
 const ProductPage = () => {
   const { data } = useLocalSearchParams();
+  const router = useRouter();
+  const { addToCart } = useCartStore();
 
   if (!data)
     return <Text className="text-white text-center mt-10">Loading...</Text>;
 
   const product: Product = JSON.parse(data as string);
 
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <ScrollView className="flex-1 bg-black p-4">
+      {/* Back Button */}
+      <TouchableOpacity onPress={() => router.back()}>
+        <Text className="text-[#D7FC70] text-lg font-semibold mb-2">BACK</Text>
+      </TouchableOpacity>
+
       {/* Product Image */}
       <View className="items-center">
         <Image
@@ -69,7 +82,10 @@ const ProductPage = () => {
       </Text>
 
       {/* Add to Cart Button */}
-      <TouchableOpacity className="bg-[#D7FC70] py-3 rounded-xl mt-5">
+      <TouchableOpacity
+        className="bg-[#D7FC70] py-3 rounded-xl mt-5"
+        onPress={handleAddToCart}
+      >
         <Text className="text-black text-center font-semibold text-lg">
           Add to Cart
         </Text>

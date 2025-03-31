@@ -4,12 +4,20 @@ import { Image } from "expo-image";
 import { Product } from "@/types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import { useCartStore } from "@/store/useCartStore";
+
 type Props = {
   product: Product;
 };
 
 const ProductCard = ({ product }: Props) => {
   const router = useRouter();
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = () => {
+    console.log("adding to cart", product);
+    addToCart(product);
+  };
 
   return (
     <TouchableOpacity
@@ -45,7 +53,17 @@ const ProductCard = ({ product }: Props) => {
         ₹{product.price}
       </Text>
       <Text className="text-gray-400 text-sm mt-1">{product.vendorId}</Text>
+
+      {/* Add to Cart Button */}
+      <TouchableOpacity
+        className="bg-[#D7FC70] p-2 mt-3 rounded-xl flex-row items-center justify-center"
+        onPress={handleAddToCart}
+      >
+        <Ionicons name="cart-outline" size={20} color="black" />
+        <Text className="text-black font-semibold ml-2">Add to Cart</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
+
 export default ProductCard;
