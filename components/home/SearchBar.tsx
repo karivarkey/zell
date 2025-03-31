@@ -21,7 +21,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       <Ionicons name="search" size={20} color="#D7FC70" className="mr-2" />
       <TextInput
         className="flex-1 text-white"
-        placeholder="Search for apartments..."
+        placeholder="Search for products"
         placeholderTextColor="#888"
         value={query}
         onChangeText={handleChange}

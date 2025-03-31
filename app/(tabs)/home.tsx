@@ -63,12 +63,23 @@ const Home = () => {
   const handleSearch = (query: string) => {
     if (!query) {
       setFilteredProducts(products);
-    } else {
-      const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredProducts(filtered);
+      return;
     }
+
+    const lowerQuery = query.toLowerCase();
+
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(lowerQuery) ||
+        product.brandName.toLowerCase().includes(lowerQuery) ||
+        product.vendorId.toLowerCase().includes(lowerQuery) ||
+        product.features.category.toLowerCase().includes(lowerQuery) ||
+        product.features.features.some((feature) =>
+          feature.toLowerCase().includes(lowerQuery)
+        )
+    );
+
+    setFilteredProducts(filtered);
   };
 
   const handleRefresh = useCallback(async () => {
