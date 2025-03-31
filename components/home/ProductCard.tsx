@@ -3,14 +3,24 @@ import React from "react";
 import { Image } from "expo-image";
 import { Product } from "@/types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
+import { useRouter } from "expo-router";
 type Props = {
   product: Product;
 };
 
 const ProductCard = ({ product }: Props) => {
+  const router = useRouter();
+
   return (
-    <View className="bg-black  p-4 rounded-2xl shadow-lg">
+    <TouchableOpacity
+      className="bg-black p-4 rounded-2xl shadow-lg"
+      onPress={() => {
+        router.push({
+          pathname: "/product",
+          params: { data: JSON.stringify(product) }, // Encode product as a string
+        });
+      }}
+    >
       {/* Product Image */}
       <View className="relative">
         <Image
@@ -21,7 +31,6 @@ const ProductCard = ({ product }: Props) => {
           contentFit="cover"
           style={{ height: 150, width: 150 }}
         />
-        {/* Heart Icon for Wishlist */}
         <TouchableOpacity className="absolute top-1 right-1">
           <Ionicons name="heart-outline" size={24} color="#D7FC70" />
         </TouchableOpacity>
@@ -32,15 +41,11 @@ const ProductCard = ({ product }: Props) => {
         {product.name}
       </Text>
 
-      {/* Price */}
       <Text className="text-[#D7FC70] text-2xl font-bold">
         ₹{product.price}
       </Text>
-
-      {/* Location Info */}
       <Text className="text-gray-400 text-sm mt-1">{product.vendorId}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
-
 export default ProductCard;

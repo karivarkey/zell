@@ -15,49 +15,49 @@ import { Toast } from "toastify-react-native";
 import Header from "@/components/home/Header";
 import ProductCard from "@/components/home/ProductCard";
 import SearchBar from "@/components/home/SearchBar";
-import axios from "axios";
+import { useProductStore } from "@/store/useProductStore";
 import { Product } from "@/types/types";
-import { API } from "@/constants/constants";
-
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products, fetchProducts } = useProductStore();
+
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-  const fetchProducts = async () => {
-    try {
-      const res = await axios.get<Product[]>(`${API}/user/home`);
-      setProducts(res.data);
-      setFilteredProducts(res.data);
-    } catch (err) {
-      console.error("Error fetching products:", err);
+  // Fetch products and location on mount
+  useEffect(() => {
+    const loadData = async () => {
+      await fetchProducts();
+      await getLocation();
+      setLoading(false);
+    };
+    loadData();
+  }, []);
+
+  // Sync filteredProducts only once after fetchProducts completes
+  useEffect(() => {
+    if (products.length > 0) {
+      setFilteredProducts(products);
+    }
+  }, [products]); // Ensures it runs only when `products` updates
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setLocation("Permission Denied");
+      return;
+    }
+    let loc = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+    });
+    let reverseGeocode = await Location.reverseGeocodeAsync(loc.coords);
+    if (reverseGeocode.length > 0) {
+      setLocation(reverseGeocode[0].formattedAddress || "Error");
+    } else {
+      setLocation("Location not found");
     }
   };
-
-  useEffect(() => {
-    (async () => {
-      await fetchProducts();
-
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setLocation("Permission Denied");
-        setLoading(false);
-        return;
-      }
-      let loc = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Highest,
-      });
-      let reverseGeocode = await Location.reverseGeocodeAsync(loc.coords);
-      if (reverseGeocode.length > 0) {
-        setLocation(reverseGeocode[0].formattedAddress || "Error");
-      } else {
-        setLocation("Location not found");
-      }
-      setLoading(false);
-    })();
-  }, []);
 
   const handleSearch = (query: string) => {
     if (!query) {
@@ -74,7 +74,7 @@ const Home = () => {
     setRefreshing(true);
     await fetchProducts();
     setRefreshing(false);
-  }, []);
+  }, [fetchProducts]);
 
   const handleSignOut = async () => {
     try {
