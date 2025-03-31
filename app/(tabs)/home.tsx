@@ -17,6 +17,7 @@ import ProductCard from "@/components/home/ProductCard";
 import SearchBar from "@/components/home/SearchBar";
 import { useProductStore } from "@/store/useProductStore";
 import { Product } from "@/types/types";
+import { router } from "expo-router";
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -91,7 +92,19 @@ const Home = () => {
       <View className="py-3">
         <Text className="text-white" style={{ fontFamily: "SoraBold" }}>
           Looking for apartments? Check it{" "}
-          <Text className="text-[#D7FC70]">out here</Text>
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/appartments");
+            }}
+            className="flex items-end justify-center"
+          >
+            <Text
+              className="text-[#D7FC70] text-center"
+              style={{ fontFamily: "SoraBold" }}
+            >
+              out here
+            </Text>
+          </TouchableOpacity>
         </Text>
       </View>
       <View className="py-4">
