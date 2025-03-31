@@ -11,9 +11,10 @@ import { useCartStore } from "@/store/useCartStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
-import { API } from "@/constants/constants";
-import { auth } from "@/firebase/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/firebase/firebase"; // Import Firestore instance
+
+import { getAuth } from "firebase/auth";
 import { Order, Product } from "@/types/types"; // Import Order and Product types
 
 const Cart = () => {
@@ -23,46 +24,51 @@ const Cart = () => {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [isAddressPrompt, setIsAddressPrompt] = useState(false);
 
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (deliveryAddress.trim() === "") {
       Alert.alert("Error", "Please provide a delivery address.");
       return;
     }
-
+    const auth = getAuth(); // Initialize Firebase Auth
     // Get userID from Firebase Auth
-    const userID = auth.currentUser?.uid; // Use the user ID from the current Firebase user
+    const userID = auth.currentUser?.uid;
 
     if (!userID) {
       Alert.alert("Error", "User not authenticated.");
       return;
     }
 
-    // Prepare the order object with the correct structure
-    const order: Order = {
-      userId: userID, // Set the userID
+    // Prepare the order object
+    const orderData = {
+      userId: userID,
       shippingAddress: deliveryAddress,
       price: total,
-      status: "shipped", // Set status to "shipped" (or change as needed)
-      products: cartItems, // Directly use the items from the cart
+      status: "shipped",
+      products: cartItems,
+      createdAt: serverTimestamp(), // Add timestamp for when order was placed
+      orderDate: new Date().toISOString(), // Add current date
     };
 
-    console.log(order); // Check the order format in console
-    console.log(`${API}/order/orders`);
-    // Send the order to the server
-    axios
-      .post(`${API}/order/orders`, order)
-      .then((response) => {
-        console.log("Order placed successfully:", response.data);
-        Alert.alert("Success", "Your order has been placed.");
-        // Optionally, clear the cart or redirect to another screen
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-        Alert.alert(
-          "Error",
-          "There was an issue placing your order. Please try again."
-        );
-      });
+    try {
+      // Add order to Firestore 'orders' collection
+      const docRef = await addDoc(collection(db, "orders"), orderData);
+
+      console.log("Order written with ID: ", docRef.id);
+      Alert.alert("Success", "Your order has been placed.");
+
+      // Optionally, clear the cart
+      // clearCart(); // Uncomment if you have this function in your store
+
+      // Reset address input
+      setDeliveryAddress("");
+      setIsAddressPrompt(false);
+    } catch (error) {
+      console.error("Error adding order: ", error);
+      Alert.alert(
+        "Error",
+        "There was an issue placing your order. Please try again."
+      );
+    }
   };
 
   // Calculate total price
