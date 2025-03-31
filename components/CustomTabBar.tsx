@@ -1,6 +1,8 @@
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { useRouter, useSegments } from "expo-router";
 import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
+
+import { useCartStore } from "@/store/useCartStore"; // Import Zustand cart store
 
 import Home from "@/assets/images/tabBar/home.svg";
 import HomeActive from "@/assets/images/tabBar/homeActive.svg";
@@ -19,6 +21,8 @@ export default function CustomTabBar() {
   const router = useRouter();
   const segments = useSegments();
   const currentRoute = segments[1]; // Extract the active tab from the URL
+
+  const cartItems = useCartStore((state) => state.cartItems.length); // Get cart item count
 
   return (
     <View className="absolute bottom-4 left-5 right-5 bg-[#D7FC70] flex-row justify-around items-center p-3 rounded-full">
@@ -39,7 +43,7 @@ export default function CustomTabBar() {
           <TouchableOpacity
             key={tab.name}
             onPress={() => router.push(`/(tabs)/${tab.name}` as any)}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center relative"
           >
             <Animated.View
               style={{
@@ -53,6 +57,13 @@ export default function CustomTabBar() {
               }}
             >
               <IconComponent width={30} height={30} />
+              {tab.name === "cart" && cartItems > 0 && (
+                <View className="absolute top-1 right-1 bg-red-600 w-6 h-6 rounded-full flex items-center justify-center">
+                  <Text className="text-white text-xs font-bold">
+                    {cartItems}
+                  </Text>
+                </View>
+              )}
             </Animated.View>
           </TouchableOpacity>
         );
