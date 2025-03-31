@@ -1,1 +1,1 @@
-export const API = "http://192.168.51.152:3000"
+export const API = "https://zell-backend-845082295063.asia-south1.run.app";
