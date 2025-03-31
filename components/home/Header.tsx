@@ -18,11 +18,11 @@ const Header = ({ location }: Props) => {
         </Text>
         <View>
           <Text
-            className="text-[#D7FC70] text-xl w-3/5 text-clip overflow-clip"
+            className="text-[#D7FC70] text-xl  text-clip overflow-clip"
             style={{ fontFamily: "SoraSemiBold" }}
             numberOfLines={1}
           >
-            {location?.split(",").slice(1).join(", ").trim().substring(0, 45)}
+            {location?.split(",").slice(1).join(", ").trim().substring(0, 30)}
             ...
           </Text>
           <Text
