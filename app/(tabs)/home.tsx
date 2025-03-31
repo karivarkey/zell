@@ -8,7 +8,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState, useCallback } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/firebase";
+import { getAuth } from "firebase/auth";
 import * as Location from "expo-location";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Toast } from "toastify-react-native";
@@ -90,6 +90,7 @@ const Home = () => {
 
   const handleSignOut = async () => {
     try {
+      const auth = getAuth();
       await signOut(auth);
       Toast.success("Signed Out Successfully!", "bottom");
     } catch (error: any) {
