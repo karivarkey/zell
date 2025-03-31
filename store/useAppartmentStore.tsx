@@ -1,21 +1,27 @@
 import { create } from "zustand";
-import axios from "axios";
 import { Property } from "@/types/types";
-import { API } from "@/constants/constants";
+import { db } from "@/firebase/firebase"; // ✅ Using imported db
+import { collection, getDocs } from "firebase/firestore";
 
 interface ApartmentStore {
   apartments: Property[];
   fetchApartments: () => Promise<void>;
 }
+
 export const useApartmentStore = create<ApartmentStore>((set, get) => ({
   apartments: [],
   fetchApartments: async () => {
     if (get().apartments.length > 0) return; // Prevent refetching if data exists
     try {
-      const res = await axios.get<Property[]>(
-        `${API}/apartments/getApartments`
-      );
-      set({ apartments: res.data });
+      const apartmentsRef = collection(db, "apartments"); // ✅ Using db
+      const snapshot = await getDocs(apartmentsRef);
+
+      const apartments: Property[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Property[];
+
+      set({ apartments });
     } catch (err) {
       console.error("Error fetching apartments:", err);
     }

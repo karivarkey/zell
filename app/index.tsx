@@ -1,16 +1,44 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import './../global.css'
-type Props = {}
+import { useFonts } from "expo-font";
+import { Slot } from "expo-router";
+import { AuthProvider } from "@/hooks/AuthProvider";
+import { Text } from "react-native";
+import ToastManager from "toastify-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    InterThin: require("../node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"),
+    InterExtraLight: require("../node_modules/@expo-google-fonts/inter/Inter_200ExtraLight.ttf"),
+    InterLight: require("../node_modules/@expo-google-fonts/inter/Inter_300Light.ttf"),
+    InterRegular: require("../node_modules/@expo-google-fonts/inter/Inter_400Regular.ttf"),
+    InterMedium: require("../node_modules/@expo-google-fonts/inter/Inter_500Medium.ttf"),
+    InterSemiBold: require("../node_modules/@expo-google-fonts/inter/Inter_600SemiBold.ttf"),
+    InterBold: require("../node_modules/@expo-google-fonts/inter/Inter_700Bold.ttf"),
+    InterExtraBold: require("../node_modules/@expo-google-fonts/inter/Inter_800ExtraBold.ttf"),
+    InterBlack: require("../node_modules/@expo-google-fonts/inter/Inter_900Black.ttf"),
+    SoraThin: require("../node_modules/@expo-google-fonts/sora/Sora_100Thin.ttf"),
+    SoraExtraLight: require("../node_modules/@expo-google-fonts/sora/Sora_200ExtraLight.ttf"),
+    SoraLight: require("../node_modules/@expo-google-fonts/sora/Sora_300Light.ttf"),
+    SoraRegular: require("../node_modules/@expo-google-fonts/sora/Sora_400Regular.ttf"),
+    SoraMedium: require("../node_modules/@expo-google-fonts/sora/Sora_500Medium.ttf"),
+    SoraSemiBold: require("../node_modules/@expo-google-fonts/sora/Sora_600SemiBold.ttf"),
+    SoraBold: require("../node_modules/@expo-google-fonts/sora/Sora_700Bold.ttf"),
+    SoraExtraBold: require("../node_modules/@expo-google-fonts/sora/Sora_800ExtraBold.ttf"),
+  });
 
-const index = (props: Props) => {
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
-    <View className='bg-red-900'>
-      <Text>index</Text>
-    </View>
-  )
+    <AuthProvider>
+      <SafeAreaView className="w-full h-full">
+        <ToastManager
+          style={{ backgroundColor: "#111111" }}
+          textStyle={{ color: "#D7FC70" }}
+        />
+
+        <Slot />
+      </SafeAreaView>
+    </AuthProvider>
+  );
 }
-
-export default index
-
-const styles = StyleSheet.create({})
