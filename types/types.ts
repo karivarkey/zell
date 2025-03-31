@@ -49,6 +49,7 @@ export interface LandLord {
 }
 
 export interface Property {
+  id: string;
   name: string;
   location: {
     address: string;
@@ -57,6 +58,7 @@ export interface Property {
   };
   reviews: Review[];
   rating: number;
+  price: number;
 }
 export interface Rating {
   uid: string;
