@@ -146,6 +146,16 @@ const Profile = (props: Props) => {
 
   return (
     <SafeAreaView className="flex-1 bg-black p-5">
+      <TouchableOpacity
+        onPress={() => {
+          router.back();
+        }}
+      >
+        <Text className="text-start  text-white text-2xl font-bold  mb-5 w-fit">
+          Back
+        </Text>
+      </TouchableOpacity>
+
       <Text className="text-[#D7FC70] text-2xl font-bold text-center mb-5">
         Profile
       </Text>

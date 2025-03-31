@@ -1,4 +1,10 @@
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, db } from "@/firebase/firebase"; // Import Firebase Auth and Firestore
@@ -11,6 +17,7 @@ import {
   QuerySnapshot,
   DocumentData,
 } from "firebase/firestore";
+import { router } from "expo-router";
 
 type Props = {};
 
@@ -83,6 +90,16 @@ const Orders = (props: Props) => {
 
   return (
     <SafeAreaView className="flex-1 bg-black p-5">
+      <TouchableOpacity
+        onPress={() => {
+          router.back();
+        }}
+      >
+        <Text className="text-start  text-white text-2xl font-bold  mb-5 w-fit">
+          Back
+        </Text>
+      </TouchableOpacity>
+
       <Text className="text-[#D7FC70] text-2xl font-bold text-center mb-5">
         Your Orders
       </Text>
