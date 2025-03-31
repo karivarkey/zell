@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Profile from "@/assets/images/home/profile.svg";
-
+import { TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 type Props = {
   location: string;
 };
 
 const Header = ({ location }: Props) => {
+  const router = useRouter();
   return (
     <View className="flex flex-row items-center justify-between w-full pt-5 ">
       <View className="flex flex-col gap-2">
@@ -35,9 +37,14 @@ const Header = ({ location }: Props) => {
       </View>
 
       {/* Wrap Profile in a fixed-size container */}
-      <View className="w-12 h-12">
+      <TouchableOpacity
+        className="w-12 h-12"
+        onPress={() => {
+          router.push("/profile");
+        }}
+      >
         <Profile width="100%" height="100%" />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
