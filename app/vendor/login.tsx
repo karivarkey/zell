@@ -133,7 +133,7 @@ const Login = (props: Props) => {
           Don't have an account?{" "}
           <Text
             className="text-[#D7FC70]"
-            onPress={() => router.push("/signup")}
+            onPress={() => router.push("/vendor/signup")}
           >
             Sign Up
           </Text>
