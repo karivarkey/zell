@@ -5,8 +5,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { Product } from "@/types/types";
 import { useCartStore } from "@/store/useCartStore";
-import { db } from "@/firebase/firebase"; // Assuming you've initialized Firebase correctly
-import { collection, query, where, getDocs } from "firebase/firestore"; // Firebase Firestore functions
+import { db } from "@/firebase/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 type Props = {
   product: Product;
@@ -15,34 +15,47 @@ type Props = {
 const ProductCard = ({ product }: Props) => {
   const router = useRouter();
   const { addToCart } = useCartStore();
-  const [orderCount, setOrderCount] = useState<number | null>(null); // To store the number of orders
-  const [loading, setLoading] = useState<boolean>(true); // Loading state for fetching data
+  const [orderCount, setOrderCount] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch the number of orders for this product
   useEffect(() => {
     const fetchOrderCount = async () => {
       try {
         const ordersRef = collection(db, "orders");
-        const q = query(
-          ordersRef,
-          where("products", "array-contains", product.id)
-        );
-        const querySnapshot = await getDocs(q);
-        setOrderCount(querySnapshot.size); // Set the order count
+        const querySnapshot = await getDocs(ordersRef);
+
+        let count = 0;
+
+        querySnapshot.forEach((doc) => {
+          const orderData = doc.data();
+
+          if (orderData.products && Array.isArray(orderData.products)) {
+            // Check if any product inside this order matches our product's vendorId
+            const hasMatchingProduct = orderData.products.some(
+              (p) => p.vendorId === product.vendorId && p.id === product.id
+            );
+            console.log(
+              `Checking order ${doc.id}: ${
+                hasMatchingProduct ? "Match" : "No Match"
+              }`
+            );
+
+            if (hasMatchingProduct) {
+              count++;
+            }
+          }
+        });
+
+        setOrderCount(count);
       } catch (error) {
         console.error("Error fetching order count:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
-    fetchOrderCount();
-  }, [product.id]); // Re-run the effect if product id changes
-
-  const handleAddToCart = () => {
-    console.log("Adding to cart", product);
-    addToCart(product);
-  };
+    fetchOrderCount(); // Directly call the function inside useEffect
+  }, [product.id]); // Dependency added for better reactivity
 
   return (
     <TouchableOpacity
@@ -94,13 +107,6 @@ const ProductCard = ({ product }: Props) => {
       )}
 
       {/* Add to Cart Button */}
-      <TouchableOpacity
-        className="bg-[#D7FC70] p-2 mt-3 rounded-xl flex-row items-center justify-center"
-        onPress={handleAddToCart}
-      >
-        <Ionicons name="cart-outline" size={20} color="black" />
-        <Text className="text-black font-semibold ml-2">Add to Cart</Text>
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
