@@ -4,8 +4,7 @@ import { Image } from "expo-image";
 import Swiper from "react-native-swiper";
 import { useRouter } from "expo-router";
 import { Link } from "expo-router";
-import { StatusBar } from 'expo-status-bar';
-
+import { StatusBar } from "expo-status-bar";
 
 const Login = () => {
   const router = useRouter();
@@ -116,9 +115,19 @@ const Login = () => {
           </View>
         </View>
         <View className="flex flex-row justify-center  pb-4 gap-1">
-          <Text className="text-[#808080]" style={{fontFamily:"Inter_400Regular"}}>Vendor?</Text>
-          <Link href={"/login"}>
-            <Text className="text-[#FBFBFB]" style={{fontFamily:"Inter_400Regular"}}>Login here</Text>
+          <Text
+            className="text-[#808080]"
+            style={{ fontFamily: "Inter_400Regular" }}
+          >
+            Vendor?
+          </Text>
+          <Link href={"/vendor/login"}>
+            <Text
+              className="text-[#FBFBFB]"
+              style={{ fontFamily: "Inter_400Regular" }}
+            >
+              Login here
+            </Text>
           </Link>
         </View>
       </View>
