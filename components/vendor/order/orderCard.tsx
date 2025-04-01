@@ -1,15 +1,15 @@
 import { View, Text, TouchableOpacity, Animated } from "react-native";
 import React, { useState } from "react";
 import { Order } from "@/types/types";
+import { doc, updateDoc, getFirestore } from "firebase/firestore";
+import { db } from "@/firebase/firebase"; // Assuming db is the Firestore instance
 
-// Type the status correctly for the state
 type OrderStatus = "delivered" | "shipped" | "cancelled";
 
 const OrderCard = ({ order }: { order: Order }) => {
-  const [status, setStatus] = useState<OrderStatus>(order.status); // Ensuring status is typed correctly
-  const fadeAnim = useState(new Animated.Value(0))[0]; // Start with opacity 0
+  const [status, setStatus] = useState<OrderStatus>(order.status);
+  const fadeAnim = useState(new Animated.Value(0))[0];
 
-  // Animation to fade in when order card appears
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -22,10 +22,25 @@ const OrderCard = ({ order }: { order: Order }) => {
     fadeIn(); // Trigger fade-in animation on mount
   }, []);
 
-  // Properly type the newStatus parameter
-  const handleStatusChange = (newStatus: OrderStatus) => {
-    // Add status change logic (e.g., update Firestore)
-    setStatus(newStatus);
+  // Update order status in Firebase
+  const handleStatusChange = async (newStatus: OrderStatus) => {
+    try {
+      // Update status locally first
+      setStatus(newStatus);
+
+      // Update status in Firebase
+      if (!order.id) {
+        throw new Error("Order ID is undefined");
+      }
+      const orderRef = doc(db, "orders", order.id); // Get the reference to the specific order
+      await updateDoc(orderRef, {
+        status: newStatus, // Update status field in Firestore
+      });
+
+      console.log("Order status updated to:", newStatus);
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
   };
 
   return (
