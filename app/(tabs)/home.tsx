@@ -88,16 +88,6 @@ const Home = () => {
     setRefreshing(false);
   }, [fetchProducts]);
 
-  const handleSignOut = async () => {
-    try {
-      const auth = getAuth();
-      await signOut(auth);
-      Toast.success("Signed Out Successfully!", "bottom");
-    } catch (error: any) {
-      Toast.error(`Sign Out Failed: ${error.message}`, "bottom");
-    }
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-[#111] px-5 pb-32">
       <Header location={location || "Fetching Location..."} />
@@ -142,13 +132,6 @@ const Home = () => {
         }
       />
       {/* Sign Out Button */}
-      <TouchableOpacity
-        onPress={handleSignOut}
-        className="bg-[#D7FC70] flex-row items-center justify-center gap-2 py-4 px-6 rounded-xl mt-4"
-      >
-        <Ionicons name="log-out-outline" size={24} color="black" />
-        <Text className="text-black text-xl font-semibold">Sign Out</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };

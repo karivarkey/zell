@@ -2,6 +2,10 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, db } from "@/firebase/firebase"; // Import Firebase Auth and Firestore
+import { signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { Toast } from "toastify-react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   updateProfile,
   sendPasswordResetEmail,
@@ -87,7 +91,15 @@ const Profile = (props: Props) => {
       );
     }
   };
-
+  const handleSignOut = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      Toast.success("Signed Out Successfully!", "bottom");
+    } catch (error: any) {
+      Toast.error(`Sign Out Failed: ${error.message}`, "bottom");
+    }
+  };
   // Delete user account
   const handleDeleteUser = async () => {
     Alert.alert(
@@ -206,6 +218,13 @@ const Profile = (props: Props) => {
           <Text className="text-black text-center font-semibold text-base">
             View Past Orders
           </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSignOut}
+          className="bg-[#D7FC70] flex-row items-center justify-center gap-2 py-4 px-6 rounded-xl mt-4"
+        >
+          <Ionicons name="log-out-outline" size={24} color="black" />
+          <Text className="text-black text-xl font-semibold">Sign Out</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
