@@ -66,7 +66,7 @@ const ProductCard = ({ product }: Props) => {
       <View className="relative">
         <Image
           source={{
-            uri: `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${product.id}.png`,
+            uri: product.imageUrl,
           }}
           className="w-full h-48 rounded-xl"
           contentFit="cover"

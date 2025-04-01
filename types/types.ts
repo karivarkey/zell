@@ -11,6 +11,7 @@ export interface Product {
     category: string;
     features: string[];
   };
+  imageUrl: string;
 }
 
 export interface Vendor {
