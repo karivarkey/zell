@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Property } from "@/types/types";
-import { db } from "@/firebase/firebase"; // ✅ Using imported db
+import { db } from "@/firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 interface ApartmentStore {
@@ -13,7 +13,7 @@ export const useApartmentStore = create<ApartmentStore>((set, get) => ({
   fetchApartments: async () => {
     if (get().apartments.length > 0) return; // Prevent refetching if data exists
     try {
-      const apartmentsRef = collection(db, "apartments"); // ✅ Using db
+      const apartmentsRef = collection(db, "apartments"); // ✅ Using db from @firebase
       const snapshot = await getDocs(apartmentsRef);
 
       const apartments: Property[] = snapshot.docs.map((doc) => ({
