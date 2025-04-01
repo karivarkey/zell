@@ -34,11 +34,6 @@ const ProductCard = ({ product }: Props) => {
             const hasMatchingProduct = orderData.products.some(
               (p) => p.vendorId === product.vendorId && p.id === product.id
             );
-            console.log(
-              `Checking order ${doc.id}: ${
-                hasMatchingProduct ? "Match" : "No Match"
-              }`
-            );
 
             if (hasMatchingProduct) {
               count++;
