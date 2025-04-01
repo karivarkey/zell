@@ -1,14 +1,33 @@
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "@/firebase/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Product } from "@/types/types";
 import ProductCard from "@/components/vendor/home/productCard";
 import VendorNav from "@/components/vendor/VendorNav"; // Import VendorNav
+import { Toast } from "toastify-react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { getAuth, signOut } from "@firebase/auth";
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const handleSignOut = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      Toast.success("Signed Out Successfully!", "bottom");
+    } catch (error: any) {
+      Toast.error(`Sign Out Failed: ${error.message}`, "bottom");
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,6 +69,22 @@ const Home = () => {
       <Text className="text-[#D7FC70] text-2xl font-bold text-center mb-6">
         Your Products
       </Text>
+
+      {/* Sign Out Button */}
+      <TouchableOpacity
+        onPress={handleSignOut}
+        style={{
+          position: "absolute",
+          top: 40,
+          right: 20,
+          backgroundColor: "#D7FC70",
+          padding: 10,
+          borderRadius: 50,
+          elevation: 3, // Add shadow for aesthetic
+        }}
+      >
+        <Ionicons name="log-out" size={24} color="black" />
+      </TouchableOpacity>
 
       <FlatList
         data={products}
