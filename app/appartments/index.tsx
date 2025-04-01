@@ -6,6 +6,7 @@ import {
   View,
   RefreshControl,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { useApartmentStore } from "@/store/useAppartmentStore";
 import { Linking } from "react-native";
@@ -45,7 +46,16 @@ const Appartments = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View className="bg-[#2C2C2C] p-4 mb-4 rounded-lg">
-            <Text className="text-[#D7FC70] text-xl font-semibold">
+            {/* Apartment Image */}
+            <Image
+              source={{
+                uri: `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/apartments/${item.id}.jpg`,
+              }}
+              className="w-full rounded-xl"
+              style={{ height: 300, width: "100%" }}
+            />
+
+            <Text className="text-[#D7FC70] text-xl font-semibold mt-3">
               {item.name}
             </Text>
             <Text className="text-[#E0E0E0] mt-2">
