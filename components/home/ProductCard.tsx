@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Image } from "expo-image";
 import { Product } from "@/types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -13,9 +13,12 @@ type Props = {
 const ProductCard = ({ product }: Props) => {
   const router = useRouter();
   const { addToCart } = useCartStore();
+  const [imageUri, setImageUri] = useState(
+    `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${product.id}.png`
+  );
 
   const handleAddToCart = () => {
-    console.log("adding to cart", product);
+    console.log("Adding to cart:", product);
     addToCart(product);
   };
 
@@ -25,19 +28,22 @@ const ProductCard = ({ product }: Props) => {
       onPress={() => {
         router.push({
           pathname: "/product",
-          params: { data: JSON.stringify(product) }, // Encode product as a string
+          params: { data: JSON.stringify(product) },
         });
       }}
     >
       {/* Product Image */}
       <View className="relative">
         <Image
-          source={{
-            uri: `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${product.id}.png`,
-          }}
+          source={{ uri: imageUri }}
           className="w-full h-48 rounded-xl"
           contentFit="cover"
           style={{ height: 150, width: 150 }}
+          onError={() =>
+            setImageUri(
+              `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${product.id}.jpg`
+            )
+          }
         />
         <TouchableOpacity className="absolute top-1 right-1">
           <Ionicons name="heart-outline" size={24} color="#D7FC70" />

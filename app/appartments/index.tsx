@@ -12,9 +12,10 @@ import { useApartmentStore } from "@/store/useAppartmentStore";
 import { Linking } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
-const Appartments = () => {
+const Apartments = () => {
   const { apartments, fetchApartments } = useApartmentStore();
   const [refreshing, setRefreshing] = useState(false);
+  const [imageUris, setImageUris] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetchApartments();
@@ -44,37 +45,37 @@ const Appartments = () => {
       <FlatList
         data={apartments}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="bg-[#2C2C2C] p-4 mb-4 rounded-lg">
-            {/* Apartment Image */}
-            <Image
-              source={{
-                uri: `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/apartments/${item.id}.jpg`,
-              }}
-              className="w-full rounded-xl"
-              style={{ height: 300, width: "100%" }}
-            />
+        renderItem={({ item }) => {
+          return (
+            <View className="bg-[#2C2C2C] p-4 mb-4 rounded-lg">
+              {/* Apartment Image */}
+              <Image
+                source={{ uri: item.imageUrl }}
+                className="w-full rounded-xl"
+                style={{ height: 300, width: "100%" }}
+              />
 
-            <Text className="text-[#D7FC70] text-xl font-semibold mt-3">
-              {item.name}
-            </Text>
-            <Text className="text-[#E0E0E0] mt-2">
-              {item.location.address} | Rating: {item.rating}
-            </Text>
-            <Text className="text-[#D7FC70] text-lg mt-2">
-              Price: ₹{item.price}
-            </Text>
+              <Text className="text-[#D7FC70] text-xl font-semibold mt-3">
+                {item.name}
+              </Text>
+              <Text className="text-[#E0E0E0] mt-2">
+                {item.location.address} | Rating: {item.rating}
+              </Text>
+              <Text className="text-[#D7FC70] text-lg mt-2">
+                Price: ₹{item.price}
+              </Text>
 
-            {/* Phone Call Button */}
-            <TouchableOpacity
-              className="mt-3 flex-row items-center"
-              onPress={() => Linking.openURL(`tel:${item.contact}`)}
-            >
-              <Feather name="phone-call" size={24} color="#D7FC70" />
-              <Text className="text-[#D7FC70] ml-2">Call Now</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+              {/* Phone Call Button */}
+              <TouchableOpacity
+                className="mt-3 flex-row items-center"
+                onPress={() => Linking.openURL(`tel:${item.contact}`)}
+              >
+                <Feather name="phone-call" size={24} color="#D7FC70" />
+                <Text className="text-[#D7FC70] ml-2">Call Now</Text>
+              </TouchableOpacity>
+            </View>
+          );
+        }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -87,4 +88,4 @@ const Appartments = () => {
   );
 };
 
-export default Appartments;
+export default Apartments;
