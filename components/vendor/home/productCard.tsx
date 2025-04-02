@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Product } from "@/types/types";
 import { useCartStore } from "@/store/useCartStore";
 import { db } from "@/firebase/firebase";
@@ -49,18 +49,19 @@ const ProductCard = ({ product }: Props) => {
       }
     };
 
-    fetchOrderCount(); // Directly call the function inside useEffect
-  }, [product.id]); // Dependency added for better reactivity
+    fetchOrderCount();
+  }, [product.id]);
 
   return (
     <TouchableOpacity
-      className="bg-black p-4 rounded-2xl shadow-lg"
+      className="bg-black p-4 rounded-2xl shadow-lg mx-2"
       onPress={() => {
         router.push({
           pathname: "/product",
           params: { data: JSON.stringify(product) }, // Encode product as a string
         });
       }}
+      style={{ width: 180 }} // Fixed width
     >
       {/* Product Image */}
       <View className="relative">
@@ -68,13 +69,10 @@ const ProductCard = ({ product }: Props) => {
           source={{
             uri: product.imageUrl,
           }}
-          className="w-full h-48 rounded-xl"
+          className="rounded-xl"
           contentFit="cover"
-          style={{ height: 150, width: 150 }}
+          style={{ height: 150, width: "100%" }}
         />
-        <TouchableOpacity className="absolute top-1 right-1">
-          <Ionicons name="heart-outline" size={24} color="#D7FC70" />
-        </TouchableOpacity>
       </View>
 
       {/* Product Info */}
@@ -82,8 +80,16 @@ const ProductCard = ({ product }: Props) => {
         {product.name}
       </Text>
 
-      {/* Price and Category */}
-      <Text className="text-[#D7FC70] text-2xl font-bold">
+      {/* ⭐ Rating */}
+      <View className="flex-row items-center mt-1">
+        <Ionicons name="star" size={16} color="#D7FC70" />
+        <Text className="text-[#D7FC70] text-sm ml-1">
+          {product.rating || "N/A"}
+        </Text>
+      </View>
+
+      {/* Price */}
+      <Text className="text-[#D7FC70] text-2xl font-bold mt-1">
         ₹{product.price}
       </Text>
 
@@ -100,8 +106,6 @@ const ProductCard = ({ product }: Props) => {
           Orders: {orderCount !== null ? orderCount : 0}
         </Text>
       )}
-
-      {/* Add to Cart Button */}
     </TouchableOpacity>
   );
 };

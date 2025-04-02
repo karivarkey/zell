@@ -43,6 +43,7 @@ const Home = () => {
 
         const items: Product[] = snapshot.docs.map((doc) => ({
           ...(doc.data() as Product),
+          id: doc.id, // Ensure each product has a unique key
         }));
 
         setProducts(items);
@@ -66,33 +67,36 @@ const Home = () => {
 
   return (
     <View className="flex-1 bg-black p-4">
-      <Text className="text-[#D7FC70] text-2xl font-bold text-center mb-6">
+      {/* Page Title */}
+      <Text className="text-[#D7FC70] text-3xl font-bold text-center mb-6">
         Your Products
       </Text>
 
       {/* Sign Out Button */}
       <TouchableOpacity
         onPress={handleSignOut}
-        style={{
-          position: "absolute",
-          top: 40,
-          right: 20,
-          backgroundColor: "#D7FC70",
-          padding: 10,
-          borderRadius: 50,
-          elevation: 3, // Add shadow for aesthetic
-        }}
+        className="absolute top-6 right-6 bg-[#D7FC70] p-3 rounded-full shadow-lg"
       >
-        <Ionicons name="log-out" size={24} color="black" />
+        <Ionicons name="log-out-outline" size={24} color="black" />
       </TouchableOpacity>
 
+      {/* Product Grid */}
       <FlatList
         data={products}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ProductCard product={item} />}
+        numColumns={2} // Display two items per row
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+        renderItem={({ item }) => (
+          <View className="w-[48%] mb-4">
+            <ProductCard product={item} />
+          </View>
+        )}
+        contentContainerStyle={{
+          paddingBottom: 100, // Space for bottom navigation
+        }}
       />
 
-      {/* ✅ Add the animated bottom navigation */}
+      {/* Animated Bottom Navigation */}
       <VendorNav />
     </View>
   );
