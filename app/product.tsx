@@ -1,12 +1,19 @@
 import { useLocalSearchParams } from "expo-router";
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from "react-native";
 import { Image } from "expo-image";
-import { Product } from "@/types/types";
+import { Product, Review } from "@/types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { useCartStore } from "@/store/useCartStore"; // Import Zustand store
 import { useState } from "react";
-import { firestore } from "@/firebase"; // Import Firestore instance
+import { db } from "@/firebase/firebase";
 import { collection, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 const ProductPage = () => {
@@ -14,6 +21,8 @@ const ProductPage = () => {
   const router = useRouter();
   const { addToCart } = useCartStore();
   const [reviewText, setReviewText] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewRating, setReviewRating] = useState(0); // State for rating (1-5)
 
   if (!data)
     return <Text className="text-white text-center mt-10">Loading...</Text>;
@@ -25,24 +34,41 @@ const ProductPage = () => {
   };
 
   const handleSubmitReview = async () => {
-    if (!reviewText.trim()) {
-      Alert.alert("Error", "Review cannot be empty.");
+    if (!reviewText.trim() || !reviewTitle.trim() || reviewRating === 0) {
+      Alert.alert("Error", "Title, review, and rating are required.");
       return;
     }
 
-    const review = {
+    const newReview: Review = {
       userId: "AnonymousUser", // Replace with actual user ID
+      title: reviewTitle,
       review: reviewText,
+      rating: reviewRating,
     };
 
     try {
-      const productRef = doc(collection(firestore, "products"), product.id);
+      const productRef = doc(db, "products", product.id); // Reference to the specific product document
+
+      // Calculate new average rating
+      const currentReviews = [...product.reviews, newReview]; // Include the new review
+      const totalRating = currentReviews.reduce(
+        (sum, review) => sum + review.rating,
+        0
+      );
+      const newProductRating = totalRating / currentReviews.length;
+
+      // Update both reviews and rating in Firestore
       await updateDoc(productRef, {
-        reviews: arrayUnion(review),
+        reviews: arrayUnion(newReview), // Add the new review to the reviews array
+        rating: newProductRating, // Update the product’s global rating
       });
 
-      product.reviews.push(review);
-      setReviewText(""); // Clear input
+      // Update local state
+      product.reviews.push(newReview);
+      product.rating = newProductRating; // Update local product rating
+      setReviewText(""); // Clear review text
+      setReviewTitle(""); // Clear review title
+      setReviewRating(0); // Reset rating
       Alert.alert("Success", "Review submitted successfully!");
     } catch (error) {
       console.error("Error adding review:", error);
@@ -111,9 +137,20 @@ const ProductPage = () => {
         Sold by: {product.vendorId}
       </Text>
 
-      {/* Review Input Box */}
+      {/* Review Input Section */}
       <View className="mt-6">
         <Text className="text-white text-lg font-semibold">Write a Review</Text>
+
+        {/* Review Title Input */}
+        <TextInput
+          className="bg-gray-800 text-white p-3 rounded-lg mt-2"
+          placeholder="Review Title"
+          placeholderTextColor="gray"
+          value={reviewTitle}
+          onChangeText={setReviewTitle}
+        />
+
+        {/* Review Text Input */}
         <TextInput
           className="bg-gray-800 text-white p-3 rounded-lg mt-2"
           placeholder="Write your review here..."
@@ -122,6 +159,25 @@ const ProductPage = () => {
           onChangeText={setReviewText}
           multiline
         />
+
+        {/* Rating Selection */}
+        <View className="mt-2 flex-row items-center">
+          <Text className="text-white text-sm mr-2">Rating (1-5):</Text>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <TouchableOpacity
+              key={star}
+              onPress={() => setReviewRating(star)}
+              className="mr-2"
+            >
+              <Ionicons
+                name={star <= reviewRating ? "star" : "star-outline"}
+                size={24}
+                color="#FFD700"
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+
         <TouchableOpacity
           className="bg-[#D7FC70] py-3 rounded-xl mt-3"
           onPress={handleSubmitReview}
@@ -151,11 +207,17 @@ const ProductPage = () => {
           {product.reviews.map((review, index) => (
             <View key={index} className="mt-3 p-3 bg-gray-800 rounded-lg">
               <Text className="text-[#D7FC70] font-semibold">
-                {review.userId}
+                {review.userId} - {review.title}
               </Text>
               <Text className="text-gray-300 text-sm mt-1">
                 {review.review}
               </Text>
+              <View className="flex-row items-center mt-1">
+                <Ionicons name="star" size={16} color="#FFD700" />
+                <Text className="text-gray-400 ml-1 text-sm">
+                  {review.rating} / 5
+                </Text>
+              </View>
             </View>
           ))}
         </View>
