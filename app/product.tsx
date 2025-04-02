@@ -1,15 +1,19 @@
 import { useLocalSearchParams } from "expo-router";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Alert } from "react-native";
 import { Image } from "expo-image";
 import { Product } from "@/types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { useCartStore } from "@/store/useCartStore"; // Import Zustand store
+import { useState } from "react";
+import { firestore } from "@/firebase"; // Import Firestore instance
+import { collection, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 const ProductPage = () => {
   const { data } = useLocalSearchParams();
   const router = useRouter();
   const { addToCart } = useCartStore();
+  const [reviewText, setReviewText] = useState("");
 
   if (!data)
     return <Text className="text-white text-center mt-10">Loading...</Text>;
@@ -18,6 +22,32 @@ const ProductPage = () => {
 
   const handleAddToCart = () => {
     addToCart(product);
+  };
+
+  const handleSubmitReview = async () => {
+    if (!reviewText.trim()) {
+      Alert.alert("Error", "Review cannot be empty.");
+      return;
+    }
+
+    const review = {
+      userId: "AnonymousUser", // Replace with actual user ID
+      review: reviewText,
+    };
+
+    try {
+      const productRef = doc(collection(firestore, "products"), product.id);
+      await updateDoc(productRef, {
+        reviews: arrayUnion(review),
+      });
+
+      product.reviews.push(review);
+      setReviewText(""); // Clear input
+      Alert.alert("Success", "Review submitted successfully!");
+    } catch (error) {
+      console.error("Error adding review:", error);
+      Alert.alert("Error", "Failed to submit review.");
+    }
   };
 
   return (
@@ -80,6 +110,27 @@ const ProductPage = () => {
       <Text className="text-gray-500 text-sm mt-4">
         Sold by: {product.vendorId}
       </Text>
+
+      {/* Review Input Box */}
+      <View className="mt-6">
+        <Text className="text-white text-lg font-semibold">Write a Review</Text>
+        <TextInput
+          className="bg-gray-800 text-white p-3 rounded-lg mt-2"
+          placeholder="Write your review here..."
+          placeholderTextColor="gray"
+          value={reviewText}
+          onChangeText={setReviewText}
+          multiline
+        />
+        <TouchableOpacity
+          className="bg-[#D7FC70] py-3 rounded-xl mt-3"
+          onPress={handleSubmitReview}
+        >
+          <Text className="text-black text-center font-semibold text-lg">
+            Submit Review
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Add to Cart Button */}
       <TouchableOpacity
