@@ -6,27 +6,22 @@ import {
   RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState, useCallback } from "react";
-import { signOut } from "firebase/auth";
-import { getAuth } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Toast } from "toastify-react-native";
 import Header from "@/components/home/Header";
 import ProductCard from "@/components/home/ProductCard";
 import SearchBar from "@/components/home/SearchBar";
 import { useProductStore } from "@/store/useProductStore";
 import { Product } from "@/types/types";
 import { router } from "expo-router";
+
 const Home = () => {
   const [location, setLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const { products, fetchProducts } = useProductStore();
-
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-  // Fetch products and location on mount
   useEffect(() => {
     const loadData = async () => {
       await fetchProducts();
@@ -36,28 +31,23 @@ const Home = () => {
     loadData();
   }, []);
 
-  // Sync filteredProducts only once after fetchProducts completes
   useEffect(() => {
-    if (products.length > 0) {
-      setFilteredProducts(products);
-    }
-  }, [products]); // Ensures it runs only when `products` updates
+    setFilteredProducts(products);
+  }, [products]);
 
   const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
+    const { status } = await Location.getForegroundPermissionsAsync();
     if (status !== "granted") {
       setLocation("Permission Denied");
       return;
     }
-    let loc = await Location.getCurrentPositionAsync({
+
+    const loc = await Location.getCurrentPositionAsync({
       accuracy: Location.Accuracy.Highest,
     });
-    let reverseGeocode = await Location.reverseGeocodeAsync(loc.coords);
-    if (reverseGeocode.length > 0) {
-      setLocation(reverseGeocode[0].formattedAddress || "Error");
-    } else {
-      setLocation("Location not found");
-    }
+
+    const reverseGeocode = await Location.reverseGeocodeAsync(loc.coords);
+    setLocation(reverseGeocode[0]?.formattedAddress || "Location not found");
   };
 
   const handleSearch = (query: string) => {
@@ -67,7 +57,6 @@ const Home = () => {
     }
 
     const lowerQuery = query.toLowerCase();
-
     const filtered = products.filter(
       (product) =>
         product.name.toLowerCase().includes(lowerQuery) ||
@@ -82,11 +71,11 @@ const Home = () => {
     setFilteredProducts(filtered);
   };
 
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = async () => {
     setRefreshing(true);
     await fetchProducts();
     setRefreshing(false);
-  }, [fetchProducts]);
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-[#111] px-5 pb-32">
@@ -112,7 +101,6 @@ const Home = () => {
       <View className="py-4">
         <SearchBar onSearch={handleSearch} />
       </View>
-      {/* Product Grid with Pull to Refresh */}
       <FlatList
         data={filteredProducts}
         numColumns={2}
@@ -131,7 +119,6 @@ const Home = () => {
           />
         }
       />
-      {/* Sign Out Button */}
     </SafeAreaView>
   );
 };

@@ -12,8 +12,21 @@ export const useProductStore = create<ProductStore>((set, get) => ({
   products: [],
   fetchProducts: async () => {
     try {
-      const res = await axios.get<Product[]>(`${API}/user/home`);
-      set({ products: res.data });
+      const res = await axios.get(`${API}/user/home`, {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+        params: {
+          _timestamp: new Date().getTime(), // Bypass cache
+        },
+      });
+      console.log("Fetched Products:", res.data);
+
+      set((state) => {
+        return { products: [...res.data] }; // Spread to force update
+      });
     } catch (err) {
       console.error("Error fetching products:", err);
     }
