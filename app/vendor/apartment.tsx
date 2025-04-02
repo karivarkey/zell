@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { auth, db } from "@/firebase/firebase";
 import { API } from "@/constants/constants";
+import VendorNav from "@/components/vendor/VendorNav";
 import {
   collection,
   query,
@@ -188,7 +189,7 @@ const ApartmentScreen = () => {
       {/* Floating Add Button */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
-        className="absolute bottom-6 right-6 bg-[#D7FC70] p-4 rounded-full"
+        className="absolute bottom-32 right-6 bg-[#D7FC70] p-4 rounded-full"
       >
         <Ionicons name="add" size={30} color="black" />
       </TouchableOpacity>
@@ -262,6 +263,7 @@ const ApartmentScreen = () => {
           </TouchableOpacity>
         </View>
       </Modal>
+      <VendorNav />
     </View>
   );
 };
