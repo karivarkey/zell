@@ -61,6 +61,7 @@ export interface Property {
   rating: number;
   price: number;
   contact: number;
+  imageUrl: string;
 }
 export interface Rating {
   uid: string;
