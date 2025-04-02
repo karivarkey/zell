@@ -8,6 +8,7 @@ const Categories = () => {
   const [categories, setCategories] = useState<
     { name: string; images: string[] }[]
   >([]);
+  const [imageUris, setImageUris] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetchProducts();
@@ -19,13 +20,17 @@ const Categories = () => {
 
     products.forEach((product) => {
       const category = product.features.category;
-      const imageUrl = `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${product.id}.png`;
+      const imageId = product.id;
+      const primaryImageUrl = `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${imageId}.png`;
+      const fallbackImageUrl = `https://res.cloudinary.com/dgwb2hiol/image/upload/v1742568907/products/${imageId}.jpg`;
+
+      console.log(`Category: ${category}, Primary Image: ${primaryImageUrl}`);
 
       if (!categoryMap.has(category)) {
         categoryMap.set(category, []);
       }
       if (categoryMap.get(category)!.length < 4) {
-        categoryMap.get(category)!.push(imageUrl);
+        categoryMap.get(category)!.push(imageUris[imageId] || primaryImageUrl);
       }
     });
 
@@ -35,7 +40,7 @@ const Categories = () => {
         images,
       }))
     );
-  }, [products]);
+  }, [products, imageUris]);
 
   return (
     <View className="flex-1 bg-[#111] p-4">
@@ -68,6 +73,16 @@ const Categories = () => {
                   style={{
                     width: item.images.length === 1 ? "100%" : "48%",
                     height: 75,
+                  }}
+                  onError={() => {
+                    console.warn(
+                      `Error loading ${uri}, switching to fallback .jpg`
+                    );
+                    setImageUris((prev) => ({
+                      ...prev,
+                      [uri.split("/").pop()?.replace(".png", "") || ""]:
+                        uri.replace(".png", ".jpg"),
+                    }));
                   }}
                 />
               ))}
