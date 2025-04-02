@@ -51,7 +51,7 @@ export default function Search() {
     if (!cameraRef.current) return;
 
     const photo = await cameraRef.current.takePictureAsync({
-      quality: 1,
+      quality: 0,
       skipProcessing: true,
     });
 
