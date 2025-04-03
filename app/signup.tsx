@@ -20,10 +20,18 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignUp = async () => {
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Toast.error("Please enter a valid email address!");
+      return;
+    }
+
     if (password !== confirmPassword) {
       Toast.error("Passwords do not match!");
       return;
     }
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       Toast.success("Account created successfully!");
