@@ -1,11 +1,15 @@
 import { create } from "zustand";
 import { Order } from "@/types/types";
 import { auth, db } from "@/firebase/firebase"; // Import Firebase Auth & Firestore
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 
 type OrderStore = {
   orders: Order[];
   fetchOrders: () => Promise<void>;
+  updateOrderStatus: (
+    orderId: string,
+    newStatus: Order["status"]
+  ) => Promise<void>;
 };
 
 export const useOrderStore = create<OrderStore>((set) => ({
@@ -37,6 +41,22 @@ export const useOrderStore = create<OrderStore>((set) => ({
       set({ orders: fetchedOrders });
     } catch (error) {
       console.error("Error fetching orders:", error);
+    }
+  },
+
+  updateOrderStatus: async (orderId: string, newStatus: Order["status"]) => {
+    try {
+      const orderRef = doc(db, "orders", orderId);
+      await updateDoc(orderRef, { status: newStatus });
+
+      // Refresh orders after update
+      set((state) => ({
+        orders: state.orders.map((order) =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        ),
+      }));
+    } catch (error) {
+      console.error("Error updating order status:", error);
     }
   },
 }));

@@ -1,13 +1,22 @@
-import { View, Text, TouchableOpacity, Animated } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { Order } from "@/types/types";
-import { doc, updateDoc, getFirestore } from "firebase/firestore";
-import { db } from "@/firebase/firebase"; // Assuming db is the Firestore instance
 
 type OrderStatus = "delivered" | "shipped" | "cancelled";
 
-const OrderCard = ({ order }: { order: Order }) => {
-  const [status, setStatus] = useState<OrderStatus>(order.status);
+type OrderCardProps = {
+  order: Order;
+  updating: boolean;
+  onUpdateStatus: (orderId: string, newStatus: OrderStatus) => Promise<void>;
+};
+
+const OrderCard = ({ order, updating, onUpdateStatus }: OrderCardProps) => {
   const fadeAnim = useState(new Animated.Value(0))[0];
 
   const fadeIn = () => {
@@ -19,29 +28,8 @@ const OrderCard = ({ order }: { order: Order }) => {
   };
 
   React.useEffect(() => {
-    fadeIn(); // Trigger fade-in animation on mount
+    fadeIn();
   }, []);
-
-  // Update order status in Firebase
-  const handleStatusChange = async (newStatus: OrderStatus) => {
-    try {
-      // Update status locally first
-      setStatus(newStatus);
-
-      // Update status in Firebase
-      if (!order.id) {
-        throw new Error("Order ID is undefined");
-      }
-      const orderRef = doc(db, "orders", order.id); // Get the reference to the specific order
-      await updateDoc(orderRef, {
-        status: newStatus, // Update status field in Firestore
-      });
-
-      console.log("Order status updated to:", newStatus);
-    } catch (error) {
-      console.error("Error updating order status:", error);
-    }
-  };
 
   return (
     <Animated.View
@@ -49,6 +37,7 @@ const OrderCard = ({ order }: { order: Order }) => {
       style={{ opacity: fadeAnim }}
     >
       <Text className="text-white text-lg font-bold">Order ID: {order.id}</Text>
+
       <View className="mt-2">
         {order.products.map((product) => (
           <View
@@ -62,26 +51,33 @@ const OrderCard = ({ order }: { order: Order }) => {
       </View>
 
       <Text className="text-gray-300">Total: ₹{order.price}</Text>
-      <Text className="text-gray-500">Status: {status}</Text>
+      <Text className="text-gray-500">Status: {order.status}</Text>
 
       <View className="flex-row justify-between mt-4">
         {["shipped", "delivered", "cancelled"].map((statusOption) => (
           <TouchableOpacity
             key={statusOption}
-            onPress={() => handleStatusChange(statusOption as OrderStatus)} // Type casting
-            className={`p-2 rounded-md ${
-              status === statusOption
+            onPress={() =>
+              onUpdateStatus(order.id ?? "", statusOption as OrderStatus)
+            }
+            className={`p-2 rounded-md flex-1 mx-1 ${
+              order.status === statusOption
                 ? "bg-[#D7FC70]"
                 : "bg-[#333333] border-2 border-[#D7FC70]"
-            }`}
+            } flex-row justify-center items-center`}
+            disabled={updating}
           >
-            <Text
-              className={`text-center text-white ${
-                status === statusOption ? "font-bold" : ""
-              }`}
-            >
-              {statusOption.charAt(0).toUpperCase() + statusOption.slice(1)}
-            </Text>
+            {updating && order.status === statusOption ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text
+                className={`text-center text-white ${
+                  order.status === statusOption ? "font-bold" : ""
+                }`}
+              >
+                {statusOption.charAt(0).toUpperCase() + statusOption.slice(1)}
+              </Text>
+            )}
           </TouchableOpacity>
         ))}
       </View>
