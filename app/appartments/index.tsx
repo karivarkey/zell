@@ -7,15 +7,15 @@ import {
   RefreshControl,
   ActivityIndicator,
   Image,
+  Linking,
 } from "react-native";
 import { useApartmentStore } from "@/store/useAppartmentStore";
-import { Linking } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Apartments = () => {
   const { apartments, fetchApartments } = useApartmentStore();
   const [refreshing, setRefreshing] = useState(false);
-  const [imageUris, setImageUris] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetchApartments();
@@ -26,6 +26,12 @@ const Apartments = () => {
     setRefreshing(true);
     await fetchApartments(); // Fetch fresh data
     setRefreshing(false);
+  };
+
+  // Function to open Google Maps with coordinates
+  const openInMaps = (lat: number, long: number) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
+    Linking.openURL(url);
   };
 
   if (apartments.length === 0) {
@@ -45,37 +51,51 @@ const Apartments = () => {
       <FlatList
         data={apartments}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => {
-          return (
-            <View className="bg-[#2C2C2C] p-4 mb-4 rounded-lg">
-              {/* Apartment Image */}
-              <Image
-                source={{ uri: item.imageUrl }}
-                className="w-full rounded-xl"
-                style={{ height: 300, width: "100%" }}
-              />
+        renderItem={({ item }) => (
+          <View className="bg-[#2C2C2C] p-4 mb-4 rounded-lg">
+            {/* Apartment Image */}
+            <Image
+              source={{ uri: item.imageUrl }}
+              className="w-full rounded-xl"
+              style={{ height: 300, width: "100%" }}
+            />
 
-              <Text className="text-[#D7FC70] text-xl font-semibold mt-3">
-                {item.name}
-              </Text>
-              <Text className="text-[#E0E0E0] mt-2">
-                {item.location.address} | Rating: {item.rating}
-              </Text>
-              <Text className="text-[#D7FC70] text-lg mt-2">
-                Price: ₹{item.price}
-              </Text>
+            <Text className="text-[#D7FC70] text-xl font-semibold mt-3">
+              {item.name}
+            </Text>
+            <Text className="text-[#E0E0E0] mt-2">
+              📍 {item.location?.address || "No address available"}
+            </Text>
+            <Text className="text-[#D7FC70] text-lg mt-2">
+              Price: ₹{item.price}
+            </Text>
 
+            {/* Buttons Row */}
+            <View className="flex-row justify-between mt-3">
               {/* Phone Call Button */}
               <TouchableOpacity
-                className="mt-3 flex-row items-center"
+                className="flex-row items-center"
                 onPress={() => Linking.openURL(`tel:${item.contact}`)}
               >
                 <Feather name="phone-call" size={24} color="#D7FC70" />
                 <Text className="text-[#D7FC70] ml-2">Call Now</Text>
               </TouchableOpacity>
+
+              {/* Route Button */}
+              {item.location?.lat && item.location?.long && (
+                <TouchableOpacity
+                  className="flex-row items-center"
+                  onPress={() =>
+                    openInMaps(item.location.lat, item.location.long)
+                  }
+                >
+                  <Ionicons name="location-outline" size={24} color="#D7FC70" />
+                  <Text className="text-[#D7FC70] ml-2">Route</Text>
+                </TouchableOpacity>
+              )}
             </View>
-          );
-        }}
+          </View>
+        )}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
