@@ -128,9 +128,9 @@ const Login = () => {
         >
           <Text className="text-black text-2xl font-semibold">Sign Up</Text>
         </TouchableOpacity>
-
+        {/* 
         <View className="flex flex-row w-full justify-evenly">
-          {/* Sign Up with Google */}
+          
           <TouchableOpacity
             onPress={handleGoogleSignIn}
             className="bg-white rounded-xl py-8 flex items-center flex-row justify-center gap-2 w-1/3"
@@ -138,14 +138,14 @@ const Login = () => {
             <Ionicons name="logo-google" size={24} color="black" />
           </TouchableOpacity>
 
-          {/* Sign Up with Apple */}
+          
           <TouchableOpacity
             onPress={handleAppleSignIn}
             className="bg-[#000] border border-white rounded-xl py-8 flex items-center flex-row w-1/3 justify-center gap-2"
           >
             <Ionicons name="logo-apple" size={24} color="white" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Sign Up Link */}
         <Text className="text-white text-center">
