@@ -58,7 +58,9 @@ const ProductCard = ({ product }: Props) => {
       <Text className="text-[#D7FC70] text-2xl font-bold">
         ₹{product.price}
       </Text>
-      <Text className="text-gray-400 text-sm mt-1">{product.vendorId}</Text>
+
+      {/* Product Rating */}
+      <Text className="text-gray-400 text-sm mt-1">⭐ {product.rating}</Text>
 
       {/* Add to Cart Button */}
       <TouchableOpacity
